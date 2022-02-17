@@ -1,5 +1,5 @@
 # EE461L
-EE461L Project Spring 2022 - Landyn, Mike, Phil, Jason, Patrick :)
+EE461L Project Spring 2022 - Landyn, Mike, Phil, Jason, Patrick:)
 
 R1-1: Project Plan. Should include information such as team members, 
 sprint velocity, collaboration tools used, implementation methodology 
