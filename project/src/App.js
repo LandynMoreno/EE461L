@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react'
+import  {Login} from "./pages/login"
 
 function App() {
   return (
-    <div>
+    <div className = "App">
+      <Login/>
+
+
 
     </div>
     
