@@ -4,6 +4,7 @@ import './App.css';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './components/theme';
 import Signin from './components/Signin';
+import Newuser from './components/Newuser';
 
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
 
         <Router>
           <Routes>
-            <Route path ='/login' element={<signin/>}/>
+            <Route path ='/login' element={<Signin/>}/>
+            <Route path ='/newuser' element={<Newuser/>}/>
           </Routes>
         </Router>
       </ThemeProvider>
