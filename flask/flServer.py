@@ -11,12 +11,12 @@ def users():
     return {"users": ["jason", "john ", "jose"]}
 
 
-@app.route("/logcheck", methods = ["POST"])
+@app.route("/logcheck", methods = ["GET"])
 def checker():
     given = request.get_json
     print(given)
-    username = given["user"]
-    pswd = given["pswd"]
+    #username = given["user"]
+    #pswd = given["pswd"]
 
     return{
         "lastname": "asdasdasd"
