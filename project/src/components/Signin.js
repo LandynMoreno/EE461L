@@ -21,24 +21,18 @@ function Signin() {
 
     const send = () => {
         console.log("Sending")
-        const tosend = { usernm };
-        const response = fetch("/logcheck", {
-     
-            // Adding method type
+        const sent = {
             method: "POST",
-             
-            // Adding body or contents to send
-            body: JSON.stringify({
-                title: "foo",
-                body: "bar",
-                userId: 1
-            }),
-             
-            // Adding headers to the request
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: "TESTER"})
+        }
+        fetch("/logcheck",sent )
+        .then(response => response.json())
+        .then(data =>{
+            setError(data.approval);
+            console.log(data.approval);
+          })
+        
  
         
 
