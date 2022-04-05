@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './components/theme';
 import Signin from './components/Signin';
 import Newuser from './components/Newuser';
-
+import ResourceManagement from './components/ResourceMagement';
 
 function App() {
 
@@ -18,6 +18,7 @@ function App() {
           <Routes>
             <Route path ='/login' element={<Signin/>}/>
             <Route path ='/newuser' element={<Newuser/>}/>
+            <Route path ='/resourceManagement' element={<ResourceManagement/>}/>
           </Routes>
         </Router>
       </ThemeProvider>
