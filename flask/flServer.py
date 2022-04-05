@@ -24,7 +24,24 @@ def checker():
 
 
     return{
-        "approval": "approved"
+        "message": "approved"
+    }
+
+@app.route("/adduser", methods = ["POST"])
+def addPerson():
+    given = request.get_json
+    usernameVar = "asdas"#given["username"]
+    passwordVar = "asasdas"#given["password"]
+
+
+    newDoc = {
+        "username": usernameVar,
+        "password": passwordVar
+    }
+
+
+    return{
+        "message": "approved"
     }
 
 

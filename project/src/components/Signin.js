@@ -29,8 +29,8 @@ function Signin() {
         fetch("/logcheck",sent )
         .then(response => response.json())
         .then(data =>{
-            setError(data.approval);
-            console.log(data.approval);
+            //setError(data.approval);
+            console.log(data.message);
           })
         
  
