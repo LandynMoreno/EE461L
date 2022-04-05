@@ -4,7 +4,7 @@ from flask_cors import CORS;
 from pymongo import MongoClient
 
 
-client = MongoClient("mongodb+srv://jrd4455:PASSWORD@cluster0.wsoqa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://jrd4455:sadfsadf@cluster0.wsoqa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 #password is TEST123
 db = client["project"]
 users = db["users"]
@@ -30,14 +30,18 @@ def checker():
 @app.route("/adduser", methods = ["POST"])
 def addPerson():
     given = request.get_json
-    usernameVar = "asdas"#given["username"]
-    passwordVar = "asasdas"#given["password"]
+    #usernameVar = given["username"]
+    #passwordVar = given["password"]
 
 
     newDoc = {
-        "username": usernameVar,
-        "password": passwordVar
+        "username": "asdasd",
+        "password": "asdasda"
     }
+
+    #users.insert_one(newDoc)
+
+
 
 
     return{
