@@ -18,6 +18,7 @@ function Signin() {
             <TextField id="outlined-basic" label="Password" variant="outlined" />
             <Button variant="contained">Submit</Button>
             <Button variant="contained" onClick={()=>navigate('/newuser')}>New User????</Button>
+            <Button variant="contained" onClick={()=>navigate('/dataaccess')}>Data Access</Button>
 
 
             
