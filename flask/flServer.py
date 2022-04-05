@@ -4,8 +4,8 @@ from flask_cors import CORS;
 from pymongo import MongoClient
 
 
-client = MongoClient("mongodb+srv://jrd4455:TEST123@cluster0.wsoqa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-
+client = MongoClient("mongodb+srv://jrd4455:PASSWORD@cluster0.wsoqa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+#password is TEST123
 db = client["project"]
 users = db["users"]
 
