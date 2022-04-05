@@ -53,6 +53,7 @@ function Signin() {
             <Button variant="contained" onClick={send} >Submit</Button>
             <Button variant="contained" onClick={()=>navigate('/newuser')}>New User????</Button>
             <h3> {errorMsg} </h3>
+            <Button variant="contained" onClick={()=>navigate('/dataaccess')}>Data Access</Button>
 
 
             

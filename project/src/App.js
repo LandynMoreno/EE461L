@@ -6,7 +6,8 @@ import { theme } from './components/theme';
 import Signin from './components/Signin';
 import Newuser from './components/Newuser';
 import Projects from './components/Projects'
-
+import DataAccess from './components/DataAccess';
+import ResourceManagement from './components/ResourceMagement';
 
 function App() {
 
@@ -20,6 +21,8 @@ function App() {
             <Route path ='/' element={<Signin/>}/>
             <Route path ='/newuser' element={<Newuser/>}/>
             <Route path ='/projects' element={<Projects/>}/>
+            <Route path = '/dataaccess' element={<DataAccess/>}/>
+            <Route path ='/resourceManagement' element={<ResourceManagement/>}/>
           </Routes>
         </Router>
       </ThemeProvider>
