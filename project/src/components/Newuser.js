@@ -8,6 +8,7 @@ function Newuser() {
 
     const [usernm, setUser] = useState("")
     const [pswd, setPswd] = useState("")
+    const[error, setError] = useState("")
 
     const updateUser = (newUser) => {
         setUser(newUser.target.value)
@@ -52,6 +53,14 @@ function Newuser() {
         .then(response => response.json())
         .then(data =>{
             console.log(data.message);
+            if (data.message.trim() !== 'approved')
+                {
+                    setError(data.message)
+                }
+            else
+            {
+                navigate('/projects')
+            }
           })
                
 
@@ -73,6 +82,7 @@ function Newuser() {
             </h1>       
             <TextField value = {pswd} id="outlined-basic" label="Password" variant="outlined" onChange= {updatePswd} />
             <Button variant="contained" onClick={send} >Login</Button>
+            <h3> {error} </h3>
             
 
 
