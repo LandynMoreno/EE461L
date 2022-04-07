@@ -22,21 +22,39 @@ function Newuser() {
 
     const send = () => {
         console.log("Sending")
-        const sent = {
-            method: "POST",
-            headers: {'Content-Type': 'application/json',
-                    'Accept': 'application/json'},
-            body: JSON.stringify(
-                {username: "asdasda",
-                password: "asdasdasd"
-            })
-        }
-        fetch("/adduser",sent )
+
+        const formData = new FormData();
+        formData.append('username', 'abc123');
+
+        fetch('adduser', {
+        method: 'PUT',
+        body: formData
+        })
         .then(response => response.json())
-        .then(data =>{
-            console.log(data.message);
-          })
+        .then(result => {
+        console.log('Success:', result);
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
+
+
+        // const sent = {
+        //     method: "POST",
+        //     headers: {'Content-Type': 'application/json',
+        //             'Accept': 'application/json'},
+        //     body: JSON.stringify(
+        //         {username: "asdasda",
+        //         password: "asdasdasd"
+        //     })
+        // }
+        // fetch("/adduser",sent )
+        // .then(response => response.json())
+        // .then(data =>{
+        //     console.log(data.message);
+        //   })
                
+
 
         //navigate('/projects')
     }
