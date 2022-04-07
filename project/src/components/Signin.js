@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
@@ -23,15 +23,27 @@ function Signin() {
         console.log("Sending")
         const sent = {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username: "TESTER"})
+            headers: {'Content-Type': 'application/json',
+                    'Accept': 'application/json'},
+            body: JSON.stringify(
+                {username: "EXAMPLE USER",
+                password: "EXAMPLE PASWRD"
+            })
         }
         fetch("/logcheck",sent )
         .then(response => response.json())
         .then(data =>{
-            //setError(data.approval);
             console.log(data.message);
+            if (data.message.trim() !== 'approved')
+                {
+                    setError(data.message)
+                }
+            else
+            {
+                navigate('/projects')
+            }
           })
+        
         
  
         
