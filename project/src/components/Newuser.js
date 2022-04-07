@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
@@ -24,10 +24,11 @@ function Newuser() {
         console.log("Sending")
         const sent = {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json',
+                    'Accept': 'application/json'},
             body: JSON.stringify(
-                {username: usernm,
-                password: pswd
+                {username: "asdasda",
+                password: "asdasdasd"
             })
         }
         fetch("/adduser",sent )
