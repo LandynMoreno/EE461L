@@ -8,8 +8,9 @@ from users import Users
 app = Flask(__name__)
 CORS(app)
 client = PyMongo(
-    app, uri="mongodb+srv://tester:helloworld@cluster0.wsoqa.mongodb.net/project?retryWrites=true&w=majority")
+    app, uri="mongodb+srv://tester:<password>@cluster0.wsoqa.mongodb.net/project?retryWrites=true&w=majority")
 # password is TEST123 for jrd
+# pass word is helloworld for tester
 db = client.db
 userCollec = db.users
 
