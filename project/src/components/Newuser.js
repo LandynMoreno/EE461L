@@ -45,8 +45,8 @@ function Newuser() {
             headers: {'Content-Type': 'application/json',
                     'Accept': 'application/json'},
             body: JSON.stringify(
-                {username: "EXAMPLE USER",
-                password: "EXAMPLE PASWRD"
+                {username: usernm,
+                password: pswd
             })
         }
         fetch("/adduser",sent )
@@ -59,7 +59,10 @@ function Newuser() {
                 }
             else
             {
-                navigate('/projects')
+                console.log("SUCCESS")
+                setUser("")
+                setPswd("")
+                //navigate('/projects')
             }
           })
                
