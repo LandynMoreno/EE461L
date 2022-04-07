@@ -48,12 +48,22 @@ def addPerson():
     # check if the user is in database, if not add it
     #TODOooooooooo PLEASE FIX asdasdasdsssdasdsdlll__________________________________________
     #__________________________________________________________
+    found = False
 
-    userCollec.insert_one(newDoc)
+    for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1 }):
+        if(person['username'] == usernameParam):
+            found = True
 
-    return{
-        "message": "approved"
-    }
+    
+    if (not found):
+        userCollec.insert_one(newDoc)
+        return{
+            "message": "approved"
+        }
+    else:
+        return{
+            "message": "failed"
+        } 
 
 
 if __name__ == "__main__":
