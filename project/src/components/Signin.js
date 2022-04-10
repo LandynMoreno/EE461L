@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Signin() {
     const navigate = useNavigate()
-    const [errorMsg, setError] = useState("initial error message")
+    const [errorMsg, setError] = useState("")
     const [usernm, setUser] = useState("")
     const [pswd, setPswd] = useState("")
 
@@ -20,16 +20,30 @@ function Signin() {
     }
 
     const send = () => {
-        console.log("Sending")
+        console.log(usernm)
+        console.log(pswd)
         const sent = {
             method: "POST",
             headers: {'Content-Type': 'application/json',
                     'Accept': 'application/json'},
             body: JSON.stringify(
-                {username: "EXAMPLE USER",
-                password: "EXAMPLE PASWRD"
+                {username: usernm,
+                password: pswd
             })
         }
+
+        if(usernm.length < 3)
+        {
+            setError("username must be greater than 2 characters")
+
+        }
+        else if (pswd.length < 3)
+        {
+            setError("password length must be greater than 2 characters")
+        }
+        else{
+            console.log("sending")
+        
         fetch("/logcheck",sent )
         .then(response => response.json())
         .then(data =>{
@@ -40,11 +54,15 @@ function Signin() {
                 }
             else
             {
+                
+                //setUser("")
+                setPswd("")
+                setError("")          
                 navigate('/projects')
             }
           })
         
-        
+        }
  
         
 

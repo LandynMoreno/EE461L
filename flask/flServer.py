@@ -8,6 +8,7 @@ import sys
 
 app = Flask(__name__)
 CORS(app)
+currentUserId = ""
 client = PyMongo(app, uri="mongodb+srv://tester:helloworld@cluster0.wsoqa.mongodb.net/project?retryWrites=true&w=majority")
 # password is TEST123 for jrd
 # pass word is helloworld for tester
@@ -20,18 +21,41 @@ def users():
     return {"users": ["jason", "john ", "jose"]}
 
 
-@app.route("/logcheck", methods=["POST"])
+@app.route("/logcheck", methods=["POST", "GET"])
 def checker():
     given = request.get_json()
     usernameParam = given['username']
     pswrdParam = given['password']
 
+    newDoc = {
+        "username": usernameParam,
+        "password": pswrdParam
+    }
+
+    found = False
+    
+
+    for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1 }):
+        if(person['username'] == usernameParam) and person['password'] == pswrdParam:
+            found = True
+        
     # check if exists in db 
     #TO
 
-    return{
-        "message": "approved"
-    }
+    # return{
+    #     "message": 
+    # }
+
+    if(found):
+        currentUserId = usernameParam
+        return{
+            "message": "approved"
+        }
+    else:
+        return{
+            "message": "Your login details were incorrect"
+        }
+
 
 
 @app.route("/adduser", methods=["POST", "GET"])  # get and post
@@ -57,12 +81,13 @@ def addPerson():
     
     if (not found):
         userCollec.insert_one(newDoc)
+        currentUserId = usernameParam
         return{
             "message": "approved"
         }
     else:
         return{
-            "message": "failed"
+            "message": "failed, already exists as username"
         } 
 
 
