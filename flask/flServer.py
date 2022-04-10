@@ -20,11 +20,22 @@ def users():
     return {"users": ["jason", "john ", "jose"]}
 
 
-@app.route("/logcheck", methods=["POST"])
+@app.route("/logcheck", methods=["POST", "GET"])
 def checker():
     given = request.get_json()
     usernameParam = given['username']
     pswrdParam = given['password']
+
+    newDoc = {
+        "username": usernameParam,
+        "password": pswrdParam
+    }
+
+    found = False
+
+    for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1 }):
+        if(person['username'] == usernameParam):
+            found = True
 
     # check if exists in db 
     #TO
@@ -62,7 +73,7 @@ def addPerson():
         }
     else:
         return{
-            "message": "failed"
+            "message": "failed, already exists as username"
         } 
 
 

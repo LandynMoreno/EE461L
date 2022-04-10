@@ -30,6 +30,19 @@ function Signin() {
                 password: "EXAMPLE PASWRD"
             })
         }
+
+        if(usernm.length < 3)
+        {
+            setError("username must be greater than 2 characters")
+
+        }
+        else if (pswd.length < 3)
+        {
+            setError("password length must be greater than 2 characters")
+        }
+        else{
+            console.log("sending")
+        
         fetch("/logcheck",sent )
         .then(response => response.json())
         .then(data =>{
@@ -40,11 +53,15 @@ function Signin() {
                 }
             else
             {
+                
+                setUser("")
+                setPswd("")
+                setError("")
                 navigate('/projects')
             }
           })
         
-        
+        }
  
         
 

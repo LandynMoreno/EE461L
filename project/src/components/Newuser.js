@@ -22,33 +22,33 @@ function Newuser() {
     }
 
     const send = () => {
-        console.log("Sending")
+        
 
-        // const formData = new FormData();
-        // formData.append('username', 'abc123');
-
-        // fetch('adduser', {
-        // method: 'PUT',
-        // body: formData
-        // })
-        // .then(response => response.json())
-        // .then(result => {
-        // console.log('Success:', result);
-        // })
-        // .catch(error => {
-        // console.error('Error:', error);
-        // });
-
-
-        const sent = {
+        const sent = {        
             method: "POST",
             headers: {'Content-Type': 'application/json',
                     'Accept': 'application/json'},
             body: JSON.stringify(
                 {username: usernm,
                 password: pswd
+
             })
         }
+
+        // const formData = new FormData();
+        // formData.append('username', 'abc123');
+        if(usernm.length < 3)
+        {
+            setError("username must be greater than 2 characters")
+
+        }
+        else if (pswd.length < 3)
+        {
+            setError("password length must be greater than 2 characters")
+        }
+        else{
+            console.log("Sending");
+
         fetch("/adduser",sent )
         .then(response => response.json())
         .then(data =>{
@@ -59,16 +59,17 @@ function Newuser() {
                 }
             else
             {
-                console.log("SUCCESS")
+                
                 setUser("")
                 setPswd("")
-                //navigate('/projects')
+                setError("")
+                navigate('/projects')
             }
           })
                
+        }
 
-
-        //navigate('/projects')
+      
     }
 
 
