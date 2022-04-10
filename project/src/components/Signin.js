@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Signin() {
     const navigate = useNavigate()
-    const [errorMsg, setError] = useState("initial error message")
+    const [errorMsg, setError] = useState("")
     const [usernm, setUser] = useState("")
     const [pswd, setPswd] = useState("")
 
@@ -20,14 +20,15 @@ function Signin() {
     }
 
     const send = () => {
-        console.log("Sending")
+        console.log(usernm)
+        console.log(pswd)
         const sent = {
             method: "POST",
             headers: {'Content-Type': 'application/json',
                     'Accept': 'application/json'},
             body: JSON.stringify(
-                {username: "EXAMPLE USER",
-                password: "EXAMPLE PASWRD"
+                {username: usernm,
+                password: pswd
             })
         }
 
@@ -56,7 +57,7 @@ function Signin() {
                 
                 setUser("")
                 setPswd("")
-                setError("")
+                setError("")          
                 navigate('/projects')
             }
           })
