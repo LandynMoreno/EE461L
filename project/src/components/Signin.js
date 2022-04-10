@@ -55,7 +55,7 @@ function Signin() {
             else
             {
                 
-                setUser("")
+                //setUser("")
                 setPswd("")
                 setError("")          
                 navigate('/projects')
