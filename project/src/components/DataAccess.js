@@ -7,33 +7,33 @@ function DataAccess() {
         <div>
             <h1>DataAccess</h1>
             <Grid container rowSpacing={1} columnSpacing={1} background='primary'>
-                <Grid item xs={2}>
-                    <a href="https://www.linkedin.com/in/mike-hildner/" target="_blank">My linkedin link</a>
-                    {/* <Link href='#' color='primary' underline='always'>
-                        {"Your link"}
-                    </Link> */}
-                </Grid>
-                <Grid item xs={5}>
-                    <h2>metaData</h2>
-                </Grid>
-                <Grid item xs={5}>
-                <a href="https://physionet.org/static/published-projects/aftdb/af-termination-challenge-database-1.0.0.zip"
-                    download
-                    >
-                        Click to download zip
-                    </a>
+                <Grid item xs={4}>
+                    <h1> Title of dataset (Link embedded)</h1>
                 </Grid>
                 <Grid item xs={2}>
-                    <a href="https://www.linkedin.com/in/mike-hildner/" target="_blank">My linkedin link</a>
-                    {/* <Link href='#' color='primary' underline='always'>
-                        {"Your link"}
-                    </Link> */}
+                    <h1> Author </h1>
                 </Grid>
-                <Grid item xs={5}>
-                    <h2>metaData</h2>
+                <Grid xs={4}>
+                    <h1> Meta Data</h1>
                 </Grid>
-                <Grid item xs={5}>
-                    <a href="https://physionet.org/static/published-projects/adfecgdb/abdominal-and-direct-fetal-ecg-database-1.0.0.zip"
+                <Grid item xs={2}>
+                    <h1> Zip download</h1>
+                </Grid>
+
+                <Grid item xs={4}>
+                    <a href="https://physionet.org/content/pmd/1.0.0/" target="_blank">A Pressure Map for In-bed Postures</a>
+                </Grid>
+
+                <Grid item xs={2}>
+                    <h2>M. Baran Pouyan</h2>
+                </Grid>
+
+                <Grid item xs={4}>
+                    <h2> Meta Data</h2>
+                </Grid>
+
+                <Grid item xs={2}>
+                <a href="https://physionet.org/static/published-projects/pmd/a-pressure-map-dataset-for-in-bed-posture-classification-1.0.0.zip"
                     download
                     >
                         Click to download zip
