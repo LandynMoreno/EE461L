@@ -2,6 +2,14 @@ import React from 'react';
 import { Button, TextField } from '@mui/material';
 import {Grid, Link} from '@mui/material'
 
+const metaData = [
+    "Experiment I: Pressure data from 13 participants in 8 standard postures and 9 additional states, Experiment II: pressure data from 8 participants in 29 different states of 3 standard postures",
+    "Ten young healthy adults (males, age of 27.6±3.7 years, one left-handed participant) were recruited for this study conducted in 2018 at University of Oklahoma, Translational Geroscience Laboratory",
+    "Walking stride interval time series included are from 15 subjects: 5 healthy young adults (23 - 29 years old), 5 healthy old adults (71 - 77 years old), and 5 older adults (60 - 77 years old) with Parkinson's disease",
+    "The study population consisted of 36 individuals. The 'young' population consisted of 20 individuals [Mean age = 21.0 (SD = 1.36 years)] and the 'old' population consisted of 16 individuals [Mean age = 50.0 (SD = 10.4 years)].",
+    "Twenty-five subjects (21M, 4F) were selected (age: 50 ± 10 years, range 28-68 years; BMI: 31.6 ± 4.0 kg/m², range 25.1-42.5 kg/m²; AHI: 24.1 ± 20.3, range 1.7-90.9)."
+]
+
 function DataAccess() {
     return (
         <div>
@@ -29,7 +37,7 @@ function DataAccess() {
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> Meta Data</h2>
+                    <h2> {metaData[0]} </h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -49,7 +57,7 @@ function DataAccess() {
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> Meta Data</h2>
+                    <h2> {metaData[1]}</h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -69,7 +77,7 @@ function DataAccess() {
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> Meta Data</h2>
+                    <h2> {metaData[2]}</h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -90,7 +98,7 @@ function DataAccess() {
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> Meta Data</h2>
+                    <h2> {metaData[2]}</h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -112,7 +120,7 @@ function DataAccess() {
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> Meta Data</h2>
+                    <h2> {metaData[3]} </h2>
                 </Grid>
 
                 <Grid item lg={2}>
