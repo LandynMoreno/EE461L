@@ -11,6 +11,7 @@ import ResourceManagement from './components/ResourceMagement';
 
 function App() {
 
+  const [globalUser, setGlobalUser] = useState("")
 
   return (
     <div className = "App">
@@ -18,10 +19,10 @@ function App() {
 
         <Router>
           <Routes>
-            <Route path ='/' element={<Signin/>}/>
-            <Route path ='/newuser' element={<Newuser/>}/>
+            <Route path ='/' element={<Signin  setGlobalUser={setGlobalUser} />}/>
+            <Route path ='/newuser' element={<Newuser setGlobalUser={setGlobalUser}/>}/>
             <Route path ='/projects' element={<Projects/>}/>
-            <Route path = '/dataaccess' element={<DataAccess/>}/>
+            <Route path = '/dataaccess' element={<DataAccess globalUser = {globalUser}/>}/>
             <Route path ='/resourceManagement' element={<ResourceManagement/>}/>
           </Routes>
         </Router>
