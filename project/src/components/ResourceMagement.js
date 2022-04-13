@@ -3,7 +3,7 @@ import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
 
-function ResourceManagement() {
+function ResourceManagement({globalUser}) {
     const navigate = useNavigate()
 
     return (
