@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
+//import LoginIcon from '@mui/icons-material/Login';
 
 
 function Newuser() {
@@ -76,7 +77,7 @@ function Newuser() {
 
     return (
         <div>
-            <h1>New User? make here :)</h1>
+            <h1>New User? Make an account here :)</h1>
             <h1>
                 Username
             </h1>
@@ -85,7 +86,21 @@ function Newuser() {
                 Password
             </h1>       
             <TextField value = {pswd} id="outlined-basic" label="Password" variant="outlined" onChange= {updatePswd} />
-            <Button variant="contained" onClick={send} >Login</Button>
+
+            <div>
+                <Button variant="contained" onClick={send}>Create Account</Button>
+            </div>
+
+            <div className = 'navigationButton'>
+                <Button
+                    variant="contained"
+                    style = {{display: 'flex', position: 'fixed', bottom: 925}}
+                    //startIcon={<LoginIcon/>}
+                    onClick={()=>navigate('/')}>
+                    Sign-In
+                </Button>
+            </div>
+
             <h3> {error} </h3>
             
 
