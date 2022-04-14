@@ -3,7 +3,7 @@ import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
 
-function Newuser({setGlobalUser}) {
+function Newuser({setGlobalUser, globalUser}) {
     const navigate = useNavigate()
 
     const [usernm, setUser] = useState("")
@@ -60,6 +60,7 @@ function Newuser({setGlobalUser}) {
             else
             {
                 setGlobalUser(usernm)
+                console.log(globalUser)
                 setUser("")
                 setPswd("")
                 setError("")

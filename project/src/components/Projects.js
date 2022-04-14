@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
-function Projects() {
+function Projects({globalUser, setGlobalUser}) {
     const navigate = useNavigate()
 
 
@@ -11,6 +11,7 @@ function Projects() {
             <h1>
                 Projects Page
             </h1>
+            <h3> {globalUser}</h3>
             <p>Create New Project</p>
             <TextField id="outlined-basic" label="Project Name" variant="outlined" />
             <TextField id="outlined-basic" label="Project Description" variant="outlined" />
