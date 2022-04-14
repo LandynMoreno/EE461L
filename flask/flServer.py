@@ -2,6 +2,8 @@ from distutils.log import debug
 from flask import Flask, render_template, request, redirect, jsonify
 from flask_cors import CORS
 from flask_pymongo import PyMongo
+from encrypt import customEncrypt
+import random
 #from users import Users
 import sys
 
@@ -27,24 +29,16 @@ def checker():
     usernameParam = given['username']
     pswrdParam = given['password']
 
-    newDoc = {
-        "username": usernameParam,
-        "password": pswrdParam
-    }
-
     found = False
     
 
-    for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1 }):
-        if(person['username'] == usernameParam) and person['password'] == pswrdParam:
-            found = True
+    for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1, "n": 1}):
+        if(person['username'] == usernameParam):
+            nval = person['n']
+            testPassword = customEncrypt(pswrdParam, nval, -1)
+            if(testPassword == person['password']):
+                found = True
         
-    # check if exists in db 
-    #TO
-
-    # return{
-    #     "message": 
-    # }
 
     if(found):
         currentUserId = usernameParam
@@ -63,15 +57,26 @@ def addPerson():
     given = request.get_json()
     usernameParam = given['username']
     pswrdParam = given['password']
+    nval = random.randint(1,4)
+    passToInsert = customEncrypt(pswrdParam, nval, 1)
+    
 
     newDoc = {
         "username": usernameParam,
-        "password": pswrdParam
+        "password": passToInsert,
+        "n": nval
     }
 
-    # check if the user is in database, if not add it
-    #TODOooooooooo PLEASE FIX asdasdasdsssdasdsdlll__________________________________________
-    #__________________________________________________________
+
+    if ((' ' in usernameParam) or ('!' in usernameParam)):
+        return{
+            "message": "Invalid characters used in username"
+        }
+    if ((' ' in pswrdParam) or ('!' in pswrdParam)):
+        return{
+            "message": "Invalid characters used in password"
+        }
+
     found = False
 
     for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1 }):
@@ -81,7 +86,6 @@ def addPerson():
     
     if (not found):
         userCollec.insert_one(newDoc)
-        currentUserId = usernameParam
         return{
             "message": "approved"
         }
