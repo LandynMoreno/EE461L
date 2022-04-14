@@ -35,7 +35,7 @@ def checker():
     for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1, "n": 1}):
         if(person['username'] == usernameParam):
             nval = person['n']
-            testPassword = customEncrypt(pswrdParam, nval, -1)
+            testPassword = customEncrypt(pswrdParam, nval, 1)
             if(testPassword == person['password']):
                 found = True
         
@@ -47,7 +47,7 @@ def checker():
         }
     else:
         return{
-            "message": "Your login details were incorrect"
+            "message": "incorrect password"
         }
 
 
