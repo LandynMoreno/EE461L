@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
-function Signin({setGlobalUser}) {
+function Signin({setGlobalUser, globalUser}) {
     const navigate = useNavigate()
     const [errorMsg, setError] = useState("")
     const [usernm, setUser] = useState("")

@@ -3,12 +3,13 @@ import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
 
-function ResourceManagement({globalUser}) {
+function ResourceManagement({globalUser, setGlobalUser}) {
     const navigate = useNavigate()
 
     return (
         <div>
             <h1>Resource Management</h1>
+            <h3>{globalUser}</h3>
 
             <div className = 'container' style = {{display : "flex"}}>
                 <h3 id = "HWSet1">HWSet1</h3>
