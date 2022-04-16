@@ -1,13 +1,13 @@
 from pymongo import MongoClient
 
+
 class database:
 
     def __init__(self):
         myClient = MongoClient(
-            "mongodb+srv://tester:helloworld@cluster0.wsoqa.mongodb.net/project?retryWrites=true&w=majority")
+            "mongodb+srv://plp635:5pGea9Z77CqiQw9O@cluster0.invpm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
         self.client = myClient
         self.__db = myClient.project
-
     def getdata(self, ids, username):
         try:
             checkproj = self.getproject(ids)
@@ -33,10 +33,6 @@ class database:
 
         }
 
-
-
-
-
     def createdocuments(self, name, description, ids, capacity, username):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
             return "project already exists"
@@ -57,13 +53,13 @@ class database:
                         "availability2": capacity
                     },
                 },
-                "users":{
-                    username: ({"hwset1":0, "hwset2":0})
+                "users": {
+                    username: ({"hwset1": 0, "hwset2": 0})
 
                     # username: {
                     #     "hwset1": 0,
                     #     "hwset2": 0 }
-                    
+
                 }
             }
         self.__db.Projects.insert_one(project)
@@ -73,7 +69,7 @@ class database:
             return "Project Successfully Created"
         else:
             return "Project Creation was Unsuccessful"
-            
+
     def checkExists(self, ids, username):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
             project = self.getproject(ids)
@@ -82,14 +78,14 @@ class database:
             for key in userList:
                 if key == username:
                     found = True
-            if(not found):
-                userList[username] = ({"hwset1":0, "hwset2":0})
+            if (not found):
+                userList[username] = ({"hwset1": 0, "hwset2": 0})
                 changevalue = {"$set": {"users": userList}}
 
                 self.__db.Projects.update_one({"ids": ids}, changevalue)
 
             return "approved"
-            #insert username into the db here
+            # insert username into the db here
 
         else:
             return "No such project found"
@@ -115,9 +111,7 @@ class database:
 
         return 0
 
-
-
-    def checkout(self, qty, ids, hwsetname):
+    def checkout(self, qty, ids, hwsetname, username):
         invalidinput = "invalid input"
 
         if self.getproject(ids) is not None:  # check if the project exists
@@ -131,17 +125,30 @@ class database:
                 hwset1 = hardwareSets['hwset1']
                 availability = hwset1['availability']  # assign variables to availability and project hw amount
                 hw = checkproj["hardware"]
+                checkout = checkproj['users']
+                project = self.getproject(ids)
+                userList = project['users']
+                for key in userList:
+                    if key == username:
+                        usercheckout = userList[username]
+                concat = "users." + username + ".hwset1"
+                usercheckoutnum = int(usercheckout['hwset1'])
                 if qty <= availability:  # check if qty wanted to check out is less total available
                     changevalue = {"$set": {"hardwareSets.hwset1.availability": availability - qty}}  #
                     changevalue2 = {"$set": {"hardware": qty + hw}}
 
+                    changevalue3 = {"$set":{concat: usercheckoutnum + qty}}
+
+                    self.__db.Projects.update_one({"ids": ids}, changevalue3)
                     self.__db.Projects.update_one({"ids": ids}, changevalue)
                     self.__db.Projects.update_one({"ids": ids}, changevalue2)
                     return 0
                 else:  # if not, take everything out and leave 0 left
                     changevalue = {"$set": {"hardwareSets.hwset1.availability": 0}}
                     changevalue2 = {"$set": {"hardware": availability + hw}}
+                    changevalue3 = {"$set": {concat: availability + usercheckoutnum}}
 
+                    self.__db.Projects.update_one({"ids": ids}, changevalue3)
                     self.__db.Projects.update_one({"ids": ids}, changevalue)
                     self.__db.Projects.update_one({"ids": ids}, changevalue2)
                     return 0
@@ -150,22 +157,34 @@ class database:
                 hwset2 = hardwareSets['hwset2']
                 availability = hwset2['availability2']  # assign variables to availability and project hw amount
                 hw = checkproj["hardware"]
+                checkout = checkproj['users']
+                project = self.getproject(ids)
+                userList = project['users']
+                for key in userList:
+                    if key == username:
+                        usercheckout = userList[username]
+                concat = "users." + username + ".hwset2"
+                usercheckoutnum = int(usercheckout['hwset2'])
                 if qty <= availability:  # check if qty wanted to check out is less total available
                     changevalue = {"$set": {"hardwareSets.hwset2.availability2": availability - qty}}  #
                     changevalue2 = {"$set": {"hardware": qty + hw}}
+                    changevalue3 = {"$set":{concat: qty + usercheckoutnum}}
 
+                    self.__db.Projects.update_one({"ids": ids}, changevalue3)
                     self.__db.Projects.update_one({"ids": ids}, changevalue)
                     self.__db.Projects.update_one({"ids": ids}, changevalue2)
                     return 0
                 else:  # if not, take everything out and leave 0 left
                     changevalue = {"$set": {"hardwareSets.hwset2.availability2": 0}}
                     changevalue2 = {"$set": {"hardware": availability + hw}}
+                    changevalue3 = {"$set":{concat: availability + usercheckoutnum}}
 
+                    self.__db.Projects.update_one({"ids": ids}, changevalue3)
                     self.__db.Projects.update_one({"ids": ids}, changevalue)
                     self.__db.Projects.update_one({"ids": ids}, changevalue2)
                     return 0
 
-    def checkin(self, qty, ids, hwsetname):
+    def checkin(self, qty, ids, hwsetname, username):
         invalidinput = "invalid input"
         if self.getproject(ids) is not None:
 
@@ -178,17 +197,31 @@ class database:
                 availability = hwset1['availability']  # assign variables to availability and project hw amount
                 hw = checkproj["hardware"]
                 capacity = hwset1['capacity']
+                checkout = checkproj['users']
+                project = self.getproject(ids)
+                userList = project['users']
+                for key in userList:
+                    if key == username:
+                        usercheckout = userList[username]
 
+                usercheckoutnum = int(usercheckout['hwset1'])
+                concat = "users." + username + ".hwset1"
                 if (qty <= hw):
                     if qty <= capacity - availability:
                         checkinvalue = {"$set": {"hardwareSets.hwset1.availability": availability + qty}}
                         changevalue2 = {"$set": {"hardware": hw - qty}}
+                        changevalue3 = {"$set":{concat: usercheckoutnum - qty}}
+
+                        self.__db.Projects.update_one({"ids": ids}, changevalue3)
                         self.__db.Projects.update_one({"ids": ids}, checkinvalue)
                         self.__db.Projects.update_one({"ids": ids}, changevalue2)
                         return 0
                     else:
                         checkinvalue = {"$set": {"hardwareSets.hwset1.availability": capacity}}
                         changevalue2 = {"$set": {"hardware": hw - (capacity - availability)}}
+                        changevalue3 = {"$set":{concat: usercheckoutnum - (capacity - availability)}}
+
+                        self.__db.Projects.update_one({"ids": ids}, changevalue3)
                         self.__db.Projects.update_one({"ids": ids}, checkinvalue)
                         self.__db.Projects.update_one({"ids": ids}, changevalue2)
                         return 0
@@ -196,12 +229,18 @@ class database:
                     if qty <= capacity - availability:
                         checkinvalue = {"$set": {"hardwareSets.hwset1.availability": availability + hw}}
                         changevalue2 = {"$set": {"hardware": 0}}
+                        changevalue3 = {"$set":{concat: 0}}
+
+                        self.__db.Projects.update_one({"ids": ids}, changevalue3)
                         self.__db.Projects.update_one({"ids": ids}, checkinvalue)
                         self.__db.Projects.update_one({"ids": ids}, changevalue2)
                         return 0
                     else:
                         checkinvalue = {"$set": {"hardwareSets.hwset1.availability": capacity}}
                         changevalue2 = {"$set": {"hardware": hw - (capacity - availability)}}
+                        changevalue3 = {"$set":{concat: usercheckoutnum - (capacity - availability)}}
+
+                        self.__db.Projects.update_one({"ids": ids}, changevalue3)
                         self.__db.Projects.update_one({"ids": ids}, checkinvalue)
                         self.__db.Projects.update_one({"ids": ids}, changevalue2)
                         return 0
@@ -212,16 +251,31 @@ class database:
                 availability = hwset2['availability2']  # assign variables to availability and project hw amount
                 hw = checkproj["hardware"]
                 capacity = hwset2['capacity2']
+                checkout = checkproj['users']
+                project = self.getproject(ids)
+                userList = project['users']
+                for key in userList:
+                    if key == username:
+                        usercheckout = userList[username]
+                concat = "users." + username + ".hwset2"
+                usercheckoutnum = int(usercheckout['hwset2'])
                 if (qty <= hw):
                     if qty <= capacity - availability:
                         checkinvalue = {"$set": {"hardwareSets.hwset2.availability2": availability + qty}}
                         changevalue2 = {"$set": {"hardware": hw - qty}}
+                        changevalue3 = {"$set":{concat: usercheckoutnum - qty}}
+
+                        self.__db.Projects.update_one({"ids": ids}, changevalue3)
                         self.__db.Projects.update_one({"ids": ids}, checkinvalue)
                         self.__db.Projects.update_one({"ids": ids}, changevalue2)
                         return 0
                     else:
                         checkinvalue = {"$set": {"hardwareSets.hwset2.availability2": capacity}}
                         changevalue2 = {"$set": {"hardware": hw - (capacity - qty)}}
+                        changevalue3 = {"$set":{concat: usercheckoutnum - (capacity - availability)}}
+
+                        self.__db.Projects.update_one({"ids": ids}, changevalue3)
+
                         self.__db.Projects.update_one({"ids": ids}, checkinvalue)
                         self.__db.Projects.update_one({"ids": ids}, changevalue2)
                         return 0
