@@ -16,11 +16,11 @@ function Projects({globalUser, setGlobalUser}) {
             <TextField id="outlined-basic" label="Project Name" variant="outlined" />
             <TextField id="outlined-basic" label="Project Description" variant="outlined" />
             <TextField id="outlined-basic" label="ProjectID" variant="outlined" />
-            <Button variant="contained">Create</Button>
+            <Button variant="contained" onClick={()=>navigate('/ResourceManagement')}>Create</Button>
 
             <p>Use existing Project</p>
             <TextField id="outlined-basic" label="ProjectID" variant="outlined" />
-            <Button variant="contained">Access Project</Button>
+            <Button variant="contained" onClick={()=>navigate('/ResourceManagement')}>Access Project</Button>
 
             
         </div>

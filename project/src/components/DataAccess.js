@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, TextField } from '@mui/material';
 import {Grid, Link} from '@mui/material'
+import {useNavigate} from "react-router-dom";
+
+//import LoginIcon from '@mui/icons-material/Login';
 
 const metaData = [
     "Experiment I: Pressure data from 13 participants in 8 standard postures and 9 additional states, Experiment II: pressure data from 8 participants in 29 different states of 3 standard postures",
@@ -11,6 +14,8 @@ const metaData = [
 ]
 
 function DataAccess() {
+    const navigate = useNavigate()
+
     return (
         <div>
             <h1>DataAccess</h1>
@@ -133,17 +138,15 @@ function DataAccess() {
 
             </Grid>
 
-            {/* <h1>New User? make here :)</h1>
-            <h1>
-                Username
-            </h1>
-            <TextField id="outlined-basic" label="Username" variant="outlined" />
-            <h1>
-                Password
-            </h1>
-            <TextField id="outlined-basic" label="Password" variant="outlined" />
-            <Button variant="contained">Login</Button> */}
-            
+            <div className = 'navigationButton'>
+                <Button
+                    variant="contained"
+                    style = {{display: 'flex', position: 'fixed', bottom: 925}}
+                    //startIcon={<LoginIcon/>}
+                    onClick={()=>navigate('/')}>
+                    Sign-In
+                </Button>
+            </div>
             
         </div>
     );

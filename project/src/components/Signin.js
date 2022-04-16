@@ -76,15 +76,23 @@ function Signin({setGlobalUser, globalUser}) {
             <h1>
                 Username
             </h1>
-            <TextField value = {usernm} d="outlined-basic" label="Username" variant="outlined" onChange={updateUser} />
+            <TextField value = {usernm} id="outlined-basic" label="Username" variant="outlined" onChange={updateUser} />
             <h1>
                 Password
             </h1>       
             <TextField value = {pswd} id="outlined-basic" label="Password" variant="outlined" onChange= {updatePswd} />
-            <Button variant="contained" onClick={send} >Submit</Button>
-            <Button variant="contained" onClick={()=>navigate('/newuser')}>New User????</Button>
-            <h3> {errorMsg} </h3>
-            <Button variant="contained" onClick={()=>navigate('/dataaccess')}>Data Access</Button>
+            <div>
+                <Button variant="contained" onClick={send} >Sign-In</Button>
+            </div>
+            <div>
+                <h1> </h1>
+                <h3> {errorMsg} </h3>
+                <Button variant="contained" onClick={()=>navigate('/newuser')}>Create an Account</Button>
+                <h1> </h1>
+                <Button variant="contained" onClick={()=>navigate('/dataaccess')}>Data Access</Button>
+            </div>
+
+
 
 
             
