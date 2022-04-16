@@ -95,5 +95,41 @@ def addPerson():
         } 
 
 
+@app.route("/projecting", methods=["POST", "GET"])
+def projActions():
+    #this endpoint will add a project
+    given = request.get_json()
+    cap1 = given['capacity1']
+    avl1 = given['availability1']
+    qty1 = given['quantity1']
+    cap2 = given['capacity2']
+    avl2 = given['availability2']
+    qty2 = given['quantity2']
+
+    newDoc = {
+        "capacity1": cap1,
+        "availability1": avl1,
+        "quantity1": qty1,
+        "capacity2": cap2,
+        "availability2": avl2,
+        "quantity2": qty2
+    }
+
+    found = False
+    return True
+
+    # if project exists
+    # message = approved
+    # then update all db/hw sets
+    # for project in projCollec.find({}, {"ids": ids})
+
+@app.route("/checkProj", methods=["POST", "GET"])
+def checkerProj():
+    #this method will check if proj exists then return approved if its good
+    return True
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
