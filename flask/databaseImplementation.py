@@ -8,30 +8,6 @@ class database:
             "mongodb+srv://plp635:5pGea9Z77CqiQw9O@cluster0.invpm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
         self.client = myClient
         self.__db = myClient.project
-    def getdata(self, ids, username):
-        try:
-            checkproj = self.getproject(ids)
-            hardwareSets = checkproj['hardwareSets']
-            hwset1 = hardwareSets['hwset1']
-            availability1 = hwset1['availability']
-            capacity1 = hwset1['capacity']
-            hwset2 = hardwareSets['hwset2']
-            availability2 = hwset2['availability2']
-            capacity2 = hwset2['capacity2']
-            message = "approved"
-        except:
-            message = "Some error occured"
-
-        #add user info later, user checked out amt
-
-        return {
-            "avail1": availability1,
-            "capac1": capacity1,
-            "avail2": availability2,
-            "capac2": capacity2,
-            "message": message
-
-        }
 
     def createdocuments(self, name, description, ids, capacity, username):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
@@ -110,6 +86,26 @@ class database:
             print(project)
 
         return 0
+
+    def gethwnumbers(self, ids, username, hwsetname):
+        if self.getproject(ids) is not None:
+            if hwsetname == "hwset1":
+                project = self.getproject(ids)
+                userList = project['users']
+                for key in userList:
+                    if key == username:
+                        usercheckout = userList[username]
+                usercheckoutnum = int(usercheckout['hwset1'])
+                print(username + " has " + str(usercheckoutnum) + " in hwset1")
+
+            else:
+                project = self.getproject(ids)
+                userList = project['users']
+                for key in userList:
+                    if key == username:
+                        usercheckout = userList[username]
+                usercheckoutnum = int(usercheckout['hwset2'])
+                print(username + " has " + str(usercheckoutnum) + " in hwset2")
 
     def checkout(self, qty, ids, hwsetname, username):
         invalidinput = "invalid input"
