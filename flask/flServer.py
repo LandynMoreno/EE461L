@@ -118,12 +118,6 @@ def projActions():
 
     
 
-
-    # if project exists
-    # message = approved
-    # then update all db/hw sets
-    # for project in projCollec.find({}, {"ids": ids})
-
 @app.route("/checkProj", methods=["POST", "GET"])
 def checkerProj():
     given = request.get_json()
@@ -135,6 +129,18 @@ def checkerProj():
     return {
         "message": reponseFromDb
     }
+
+
+@app.route("/bigloader", methods=["POST", "GET"])
+def loading():
+    given = request.get_json()
+    ids = given["id"]
+    username = given["username"]
+    responseFromDb = dbVar.getdata(ids, username)
+
+    return responseFromDb
+
+
 
 
 
