@@ -46,13 +46,34 @@ function Projects({globalUser, setGlobalUser}) {
         }
         else{
             console.log("sending")
-            //add the send here
+            fetch("/projecting",sent )
+            .then(response => response.json())
+             .then(data =>{
+                console.log(data.message);
+                if (data.message.trim() === 'project already exists')
+                    {
+                        setError(data.message)
+                    }
+                else
+                {
+                    // set the project ID here
+
+                    //setGlobalUser(usernm)
+                    //console.log(globalUser)
+                    setId("")
+                    setDescrip("")
+                    setError("")
+                    setName("")
+                    //navigate('/projects')
+                }
+            })
+            
         }
 
 
 
     }
-    const checkProj = () =>{
+    const checkProject = () =>{
 
         const sent = {        
             method: "POST",
@@ -68,7 +89,26 @@ function Projects({globalUser, setGlobalUser}) {
         }
         else{
             console.log("Sendings")
-            // add the send here
+            // add the send here to /checkproj
+           fetch("/checkProj",sent )
+            .then(response => response.json())
+             .then(data =>{
+                console.log(data.message);
+                if (data.message.trim() === 'approved')
+                    {
+                    // set the project ID here
+
+                    
+                    setSearchId("")
+                    setError("")
+                    
+                    //navigate('/projects')
+                    }
+                else
+                {
+                    setError(data.message)
+                }
+            })
 
         
         }
@@ -92,7 +132,7 @@ function Projects({globalUser, setGlobalUser}) {
 
             <p>Use existing Project</p>
             <TextField value = {searchId} id="outlined-basic" label="ProjectID" variant="outlined" onChange={updateSearchid}/>
-            <Button variant="contained" onClick={checkProj}>Access Project</Button>
+            <Button variant="contained" onClick={checkProject}>Access Project</Button>
             <h3> {error} </h3>
             
         </div>
