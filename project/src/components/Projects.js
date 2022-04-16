@@ -28,7 +28,8 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
             body: JSON.stringify(
                 {name: projName,
                 description: projDescrip,
-                id: projId
+                id: projId,
+                username: globalUser
             })
         }
         if(projName.length < 1 )
@@ -81,7 +82,9 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
             headers: {'Content-Type': 'application/json',
                     'Accept': 'application/json'},
             body: JSON.stringify(
-                { id: searchId
+                {
+                     id: searchId,
+                     username: globalUser
             })
         }
         if(searchId.length < 1)

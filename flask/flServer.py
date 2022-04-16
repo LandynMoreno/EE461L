@@ -108,8 +108,9 @@ def projActions():
     name = given["name"]
     descript = given["description"]
     ids = given["id"]
+    username = given["username"]
     response = "default response"
-    response = dbVar.createdocuments(name, descript, ids, 200)
+    response = dbVar.createdocuments(name, descript, ids, 200, username)
 
     return{
         "message": response
@@ -127,7 +128,8 @@ def projActions():
 def checkerProj():
     given = request.get_json()
     ids = given["id"]
-    reponseFromDb = dbVar.checkExists(ids)
+    username = given['username']
+    reponseFromDb = dbVar.checkExists(ids, username)
 
     #this method will check if proj exists then return approved if its good
     return {
