@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
@@ -15,6 +15,7 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
     const [capacity2, setCapacity2] = useState("")
     const [availability2, setAvailability2] = useState("")
     const [quantity2, setQuantity2] = useState("")
+
 
     const updateCapacity1 = (newCapacity) => {
         setCapacity1(newCapacity.target.value)
@@ -35,6 +36,45 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
     }
     const updateQuantity2 = (newQuantity) => {
         setQuantity2(newQuantity.target.value)
+    }
+
+    useEffect(() => {
+        loadData();
+      }, []);
+
+
+    const loadData = () => {
+        //setCapacity1("asdasd")
+        const sent = {        
+            method: "POST",
+            headers: {'Content-Type': 'application/json',
+                    'Accept': 'application/json'},
+            body: JSON.stringify(
+                {id: currentProjId,
+                username: globalUser
+                
+            })
+        }
+        fetch("/bigloader",sent )
+            .then(response => response.json())
+             .then(data =>{
+                console.log(data.message);
+                if (data.message.trim() !== 'approved')
+                    {
+                        setError(data.message)
+                    }
+                else
+                {
+                    // set the project ID here
+                    setAvailability1(data.avail1)
+                    setCapacity1(data.capac1)
+                    setAvailability2(data.avail2)
+                    setCapacity2(data.capac2)
+                }
+            })
+        
+
+
     }
 
     const send = () => {
@@ -84,23 +124,63 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
             <h1>Resource Management</h1>
             <h3>{globalUser}</h3>
 
-            <div className = 'container' style = {{display : "flex"}}>
+            <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet1">HWSet1</h3>
                 <TextField value = {capacity1} id="outlined-basic" label="Capacity" variant="outlined" onChange = {updateCapacity1}/>
                 <TextField value = {availability1} id="outlined-basic" label="Available" variant="outlined" onChange = {updateAvailability1}/>
-                <TextField value = {quantity1} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity1}/>
+                {/* <TextField value = {quantity1} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity1}/> */}
             </div>
             
-            <div className = 'container' style = {{display : "flex"}}>
-                <h3 id = "HWSet1">HWSet2</h3>
+            <div className = 'container' style = {{display : "block"}}>
+                <h3 id = "HWSet2">HWSet2</h3>
                 <TextField value = {capacity2} id="outlined-basic" label="Capacity" variant="outlined" onChange = {updateCapacity2}/>
                 <TextField value = {availability2} id="outlined-basic" label="Available" variant="outlined" onChange = {updateAvailability2}/>
-                <TextField value = {quantity2} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity2}/>
+                {/* <TextField value = {quantity2} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity2}/> */}
             </div>
-            
-            <div className = 'managementButtons' style={{ display: 'flex', position: "fixed", bottom: 725}}>
+
+            <div className = 'container' style = {{display : "block"}}>
+                <h3 id = "HWSet1C">HWSet1 check in/out</h3>
+                 <TextField value = {quantity1} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity1} />
+                 <Button variant="contained"
+                        onClick={send}>
+                        Checkin
+                </Button>
                 <Button variant="contained"
-                        style = {{left: 277}}
+                        onClick={send}>
+                        CheckOut
+                </Button>
+            </div>
+
+            <div className = 'container' style = {{display : "block"}}>
+                <h3 id = "HWSet2C">HWSet2 check in/out</h3>
+                 <TextField value = {quantity2} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity2} />
+                 <Button variant="contained"
+                        onClick={send}>
+                        Checkin
+                </Button>
+                <Button variant="contained"
+                        onClick={send}>
+                        CheckOut
+                </Button>
+            </div>
+
+            <div className = 'container' style = {{display : "block"}}>
+                <h3 id = "HWSetUser">{globalUser} Current hardware set values</h3>
+                <b> Hardware Set 1:</b> {/* add the values here*/}
+                <br/>
+                <b> Hardware set 2: </b> 
+                 
+            </div>
+
+
+
+
+
+
+
+{/*             
+            <div className = 'managementButtons' style={{ display: 'flex'}}>
+                <Button variant="contained"
                         onClick={send}>
                         Checkin
                 </Button>
@@ -111,7 +191,7 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                     onClick={send}>
                     Checkout
                 </Button>
-            </div>
+            </div> */}
 
             <div>
                 <h3>

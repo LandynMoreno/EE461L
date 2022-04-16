@@ -8,6 +8,30 @@ class database:
             "mongodb+srv://plp635:5pGea9Z77CqiQw9O@cluster0.invpm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
         self.client = myClient
         self.__db = myClient.project
+    def getdata(self, ids, username):
+        try:
+            checkproj = self.getproject(ids)
+            hardwareSets = checkproj['hardwareSets']
+            hwset1 = hardwareSets['hwset1']
+            availability1 = hwset1['availability']
+            capacity1 = hwset1['capacity']
+            hwset2 = hardwareSets['hwset2']
+            availability2 = hwset2['availability2']
+            capacity2 = hwset2['capacity2']
+            message = "approved"
+        except:
+            message = "Some error occured"
+
+        #add user info later, user checked out amt
+
+        return {
+            "avail1": availability1,
+            "capac1": capacity1,
+            "avail2": availability2,
+            "capac2": capacity2,
+            "message": message
+
+        }
 
     def createdocuments(self, name, description, ids, capacity, username):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
