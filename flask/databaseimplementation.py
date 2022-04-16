@@ -4,8 +4,7 @@ from pymongo import MongoClient
 class database:
 
     def __init__(self):
-        myClient = MongoClient(
-            "mongodb+srv://tester:helloworld@cluster0.wsoqa.mongodb.net/project?retryWrites=true&w=majority")
+        myClient = MongoClient()
         self.client = myClient
         self.__db = myClient.project
     def getdata(self, ids, username):
