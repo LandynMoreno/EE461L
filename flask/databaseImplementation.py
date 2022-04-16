@@ -44,6 +44,7 @@ class database:
             return "Project Successfully Created"
         else:
             return "Project Creation was Unsuccessful"
+            
     def checkExists(self, ids, username):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
             project = self.getproject(ids)
@@ -54,6 +55,9 @@ class database:
                     found = True
             if(not found):
                 userList[username] = ({"hwset1":0, "hwset2":0})
+                changevalue = {"$set": {"users": userList}}
+
+                self.__db.Projects.update_one({"ids": ids}, changevalue)
 
             return "approved"
             #insert username into the db here
