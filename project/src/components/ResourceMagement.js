@@ -3,7 +3,7 @@ import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
 
-function ResourceManagement({globalUser, setGlobalUser}) {
+function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurrentProjId}) {
     const navigate = useNavigate()
 
     const [errorMsg, setError] = useState("")
@@ -119,10 +119,10 @@ function ResourceManagement({globalUser, setGlobalUser}) {
                 </h3>
             </div>
 
-            <div className = 'navigationButtons'>
+            {/* <div className = 'navigationButtons'>
                 <Button variant="contained" onClick={()=>navigate('/projects')} style = {{display: 'flex', position: 'fixed', bottom: 500}}>Return To Projects</Button>
                 <Button variant="contained" onClick={()=>navigate('/')} style = {{display: 'flex', position: 'fixed', bottom: 450}}>Sign Out</Button>
-            </div>
+            </div> */}
             
         </div>
     );

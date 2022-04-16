@@ -4,11 +4,11 @@ class database:
 
     def __init__(self):
         myClient = MongoClient(
-            "mongodb+srv://plp635:5pGea9Z77CqiQw9O@cluster0.invpm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+            "mongodb+srv://tester:helloworld@cluster0.wsoqa.mongodb.net/project?retryWrites=true&w=majority")
         self.client = myClient
-        self.__db = myClient.TestDatabase
+        self.__db = myClient.project
 
-    def createdocuments(self, name, description, ids, capacity):
+    def createdocuments(self, name, description, ids, capacity, username):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
             return "project already exists"
         else:
@@ -27,6 +27,14 @@ class database:
                         "capacity2": capacity,
                         "availability2": capacity
                     },
+                },
+                "users":{
+                    username: ({"hwset1":0, "hwset2":0})
+
+                    # username: {
+                    #     "hwset1": 0,
+                    #     "hwset2": 0 }
+                    
                 }
             }
         self.__db.Projects.insert_one(project)
@@ -36,6 +44,26 @@ class database:
             return "Project Successfully Created"
         else:
             return "Project Creation was Unsuccessful"
+            
+    def checkExists(self, ids, username):
+        if self.__db.Projects.find_one({"ids": ids}) is not None:
+            project = self.getproject(ids)
+            userList = project['users']
+            found = False
+            for key in userList:
+                if key == username:
+                    found = True
+            if(not found):
+                userList[username] = ({"hwset1":0, "hwset2":0})
+                changevalue = {"$set": {"users": userList}}
+
+                self.__db.Projects.update_one({"ids": ids}, changevalue)
+
+            return "approved"
+            #insert username into the db here
+
+        else:
+            return "No such project found"
 
     def getproject(self, ids):
         if self.__db.Projects.find_one({"ids": ids}) is not None:

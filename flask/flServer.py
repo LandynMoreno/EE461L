@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify
 from flask_cors import CORS
 from flask_pymongo import PyMongo
 from encrypt import customEncrypt
+from databaseImplementation import database
 import random
 #from users import Users
 import sys
@@ -16,6 +17,8 @@ client = PyMongo(app, uri="mongodb+srv://tester:helloworld@cluster0.wsoqa.mongod
 # pass word is helloworld for tester
 db = client.db
 userCollec = db.users
+
+dbVar = database()
 
 
 @app.route("/people")
@@ -98,25 +101,23 @@ def addPerson():
 @app.route("/projecting", methods=["POST", "GET"])
 def projActions():
     #this endpoint will add a project
-    given = request.get_json()
-    cap1 = given['capacity1']
-    avl1 = given['availability1']
-    qty1 = given['quantity1']
-    cap2 = given['capacity2']
-    avl2 = given['availability2']
-    qty2 = given['quantity2']
+    # name: projName,
+    #             description: projDescrip,
+    #             id: projId
+    given  = request.get_json()
+    name = given["name"]
+    descript = given["description"]
+    ids = given["id"]
+    username = given["username"]
+    response = "default response"
+    response = dbVar.createdocuments(name, descript, ids, 200, username)
 
-    newDoc = {
-        "capacity1": cap1,
-        "availability1": avl1,
-        "quantity1": qty1,
-        "capacity2": cap2,
-        "availability2": avl2,
-        "quantity2": qty2
+    return{
+        "message": response
     }
 
-    found = False
-    return True
+    
+
 
     # if project exists
     # message = approved
@@ -125,8 +126,15 @@ def projActions():
 
 @app.route("/checkProj", methods=["POST", "GET"])
 def checkerProj():
+    given = request.get_json()
+    ids = given["id"]
+    username = given['username']
+    reponseFromDb = dbVar.checkExists(ids, username)
+
     #this method will check if proj exists then return approved if its good
-    return True
+    return {
+        "message": reponseFromDb
+    }
 
 
 
