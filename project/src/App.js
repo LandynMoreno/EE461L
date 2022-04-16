@@ -12,6 +12,9 @@ import ResourceManagement from './components/ResourceMagement';
 function App() {
 
   const [globalUser, setGlobalUser] = useState("initial user")
+  const [currentProjId, setCurrentProjId] = useState("initial proj ID")
+
+
 
 
 
@@ -22,10 +25,10 @@ function App() {
         <Router>
           <Routes>
             <Route path ='/' element={<Signin globalUser = {globalUser}  setGlobalUser={setGlobalUser} />}/>
-            <Route path ='/newuser' element={<Newuser globalUser = {globalUser} setGlobalUser={setGlobalUser}/>}/>
-            <Route path ='/projects' element={<Projects setGlobalUser={setGlobalUser} globalUser = {globalUser}/>}/>
-            <Route path = '/dataaccess' element={<DataAccess setGlobalUser={setGlobalUser} globalUser = {globalUser}/>}/>
-            <Route path ='/resourceManagement' element={<ResourceManagement setGlobalUser={setGlobalUser} globalUser = {globalUser}/>}/>
+            <Route path ='/newuser' element={<Newuser currentProjId = {currentProjId} setCurrentProjId = {setCurrentProjId} globalUser = {globalUser} setGlobalUser={setGlobalUser}/>}/>
+            <Route path ='/projects' element={<Projects currentProjId = {currentProjId} setCurrentProjId = {setCurrentProjId} setGlobalUser={setGlobalUser} globalUser = {globalUser}/>}/>
+            <Route path = '/dataaccess' element={<DataAccess currentProjId = {currentProjId} setCurrentProjId = {setCurrentProjId} setGlobalUser={setGlobalUser} globalUser = {globalUser}/>}/>
+            <Route path ='/resourceManagement' element={<ResourceManagement currentProjId = {currentProjId} setCurrentProjId = {setCurrentProjId} setGlobalUser={setGlobalUser} globalUser = {globalUser}/>}/>
           </Routes>
         </Router>
       </ThemeProvider>

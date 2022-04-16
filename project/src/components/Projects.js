@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
-function Projects({globalUser, setGlobalUser}) {
+function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId }) {
     const navigate = useNavigate()
 
     const [projName, setName] = useState("")
@@ -57,6 +57,7 @@ function Projects({globalUser, setGlobalUser}) {
                 else
                 {
                     // set the project ID here
+                    setCurrentProjId(projId)
 
                     //setGlobalUser(usernm)
                     //console.log(globalUser)
@@ -64,7 +65,7 @@ function Projects({globalUser, setGlobalUser}) {
                     setDescrip("")
                     setError("")
                     setName("")
-                    //navigate('/projects')
+                    navigate('/resourceManagement')
                 }
             })
             
@@ -97,12 +98,13 @@ function Projects({globalUser, setGlobalUser}) {
                 if (data.message.trim() === 'approved')
                     {
                     // set the project ID here
+                    setCurrentProjId(searchId)
 
                     
                     setSearchId("")
                     setError("")
                     
-                    //navigate('/projects')
+                    navigate('/resourceManagement')
                     }
                 else
                 {
