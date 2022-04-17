@@ -45,14 +45,14 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
 
     const loadData = () => {
         //setCapacity1("asdasd")
-        const sent = {        
+        const sent = {
             method: "POST",
             headers: {'Content-Type': 'application/json',
                     'Accept': 'application/json'},
             body: JSON.stringify(
                 {id: currentProjId,
                 username: globalUser
-                
+
             })
         }
         fetch("/bigloader",sent )
@@ -72,7 +72,7 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                     setCapacity2(data.capac2)
                 }
             })
-        
+
 
 
     }
@@ -121,8 +121,13 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
 
     return (
         <div>
+            <div className = 'navigationBar'>
+                <Button variant="contained" onClick={()=>navigate('/dataaccess')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 25}}>Data Access</Button>
+                <Button variant="contained" onClick={()=>navigate('/projects')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 200}}>Projects</Button>
+                <h3 style = {{display: 'flex', position: 'fixed', bottom: 535, right: 200}}>{globalUser}</h3>
+                <Button variant="contained" onClick={()=> {navigate('/'); setGlobalUser('Not Signed-In');}} style = {{display: 'flex', position: 'fixed', bottom: 550, right: 50}}>Sign Out</Button>
+            </div>
             <h1>Resource Management</h1>
-            <h3>{globalUser}</h3>
 
             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet1">HWSet1</h3>
@@ -130,7 +135,7 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                 <TextField value = {availability1} id="outlined-basic" label="Available" variant="outlined" onChange = {updateAvailability1}/>
                 {/* <TextField value = {quantity1} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity1}/> */}
             </div>
-            
+
             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet2">HWSet2</h3>
                 <TextField value = {capacity2} id="outlined-basic" label="Capacity" variant="outlined" onChange = {updateCapacity2}/>
@@ -168,8 +173,8 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                 <h3 id = "HWSetUser">{globalUser} Current hardware set values</h3>
                 <b> Hardware Set 1:</b> {/* add the values here*/}
                 <br/>
-                <b> Hardware set 2: </b> 
-                 
+                <b> Hardware set 2: </b>
+
             </div>
 
 
@@ -178,13 +183,13 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
 
 
 
-{/*             
+{/*
             <div className = 'managementButtons' style={{ display: 'flex'}}>
                 <Button variant="contained"
                         onClick={send}>
                         Checkin
                 </Button>
-              
+
                 <Button
                     variant="contained"
                     style = {{left: 288}}
@@ -203,7 +208,7 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                 <Button variant="contained" onClick={()=>navigate('/projects')} style = {{display: 'flex', position: 'fixed', bottom: 500}}>Return To Projects</Button>
                 <Button variant="contained" onClick={()=>navigate('/')} style = {{display: 'flex', position: 'fixed', bottom: 450}}>Sign Out</Button>
             </div> */}
-            
+
         </div>
     );
 }
