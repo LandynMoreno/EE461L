@@ -19,6 +19,8 @@ class database:
             hwset2 = hardwareSets['hwset2']
             availability2 = hwset2['availability2']
             capacity2 = hwset2['capacity2']
+            desc = checkproj['description']
+            nam = checkproj['name']
             message = "approved"
         except:
             message = "Some error occured"
@@ -30,6 +32,8 @@ class database:
             "capac1": capacity1,
             "avail2": availability2,
             "capac2": capacity2,
+            "name": nam,
+            "description": desc,
             "message": message
 
         }

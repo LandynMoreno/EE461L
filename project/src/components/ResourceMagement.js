@@ -18,6 +18,9 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
     const [availability2, setAvailability2] = useState("")
     const [quantity2, setQuantity2] = useState("")
 
+    const [projName, setProjName] = useState("")
+    const [projDescrip, setProjDescrip] = useState("")
+
 
     const updateCapacity1 = (newCapacity) => {
         setCapacity1(newCapacity.target.value)
@@ -85,6 +88,8 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                     setUserhw1(data.hw1value)
                     //console.log(data.hw1value)
                     setUserhw2(data.hw2value)
+                    setProjName(data.name)
+                    setProjDescrip(data.description)
                 }
             })
 
@@ -151,7 +156,7 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
             <h1>Resource Management</h1>
 
             <h3> Currently Working on Project: </h3>
-            <h3> {currentProjId}</h3>
+            <h3> ID: {currentProjId} Name: {projName} Descrip: {projDescrip}</h3>
 
             <h3> ------------------------------------------- </h3>
 
