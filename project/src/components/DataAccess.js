@@ -18,6 +18,12 @@ function DataAccess() {
 
     return (
         <div>
+            <div className = 'navigationBar'>
+                <Button variant="contained" onClick={()=>navigate('/projects')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 25}}>Projects</Button>
+                <Button variant="contained" onClick={()=>navigate('/ResourceManagement')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 200}}>Resource Management</Button>
+                <h3 style = {{display: 'flex', position: 'fixed', bottom: 535, right: 200}}>{globalUser}</h3>
+                <Button variant="contained" onClick={()=> {navigate('/'); setGlobalUser('Not Signed-In');}} style = {{display: 'flex', position: 'fixed', bottom: 550, right: 50}}>Sign Out</Button>
+            </div>
             <h1>DataAccess</h1>
             <Grid container rowSpacing={1} columnSpacing={1} background='primary'>
                 <Grid item lg={4}>
