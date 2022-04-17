@@ -129,6 +129,11 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
             </div>
             <h1>Resource Management</h1>
 
+            <h3> Currently Working on Project: </h3>
+            <h3> {currentProjId}</h3>
+
+            <h3> ------------------------------------------- </h3>
+
             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet1">HWSet1</h3>
                 <TextField value = {capacity1} id="outlined-basic" label="Capacity" variant="outlined" onChange = {updateCapacity1}/>
