@@ -7,6 +7,8 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
     const navigate = useNavigate()
 
     const [errorMsg, setError] = useState("")
+    const [userhw1, setUserhw1] = useState("")
+    const [userhw2, setUserhw2] = useState("")
 
     const [capacity1, setCapacity1] = useState("")
     const [availability1, setAvailability1] = useState("")
@@ -41,6 +43,16 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
     useEffect(() => {
         loadData();
       }, []);
+    useEffect(() =>{
+    loadData();
+    },[quantity1])
+
+    useEffect(() =>{
+        loadData();
+        },[quantity2])
+
+   
+
 
 
     const loadData = () => {
@@ -58,7 +70,7 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
         fetch("/bigloader",sent )
             .then(response => response.json())
              .then(data =>{
-                console.log(data.message);
+                //console.log(data.message);
                 if (data.message.trim() !== 'approved')
                     {
                         setError(data.message)
@@ -70,6 +82,9 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                     setCapacity1(data.capac1)
                     setAvailability2(data.avail2)
                     setCapacity2(data.capac2)
+                    setUserhw1(data.hw1value)
+                    //console.log(data.hw1value)
+                    setUserhw2(data.hw2value)
                 }
             })
 
@@ -77,46 +92,52 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
 
     }
 
-    const send = () => {
-        const sent = {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    capacity1: capacity1, availability1: availability1, quantity1: quantity1,
-                    capacity2: capacity2, availability2: availability2, quantity2: quantity2,
-                })
+
+    const send = (setType, chVal, inOut) => {
+        //console.log(chVal)
+        if (!(Number.isInteger(chVal)) && parseInt(chVal) <= 0 && (chVal.length >0)){
+            setError("Quantity for HardwareSet must be integer greater than 0")
         }
-
-        if (parseInt(quantity1) <= 0) {
-            setError("Quantity for HardwareSet1 must be greater than 0")
-
-        } else if (parseInt(quantity2) <= 0) {
-            setError("Quantity for HardwareSet2 must be greater than 0")
-        } else {
-
-            fetch("/logcheck", sent)
+         else
+         {
+            const sent = 
+            {        
+                method: "POST",
+                headers: {'Content-Type': 'application/json',
+                        'Accept': 'application/json'},
+                body: JSON.stringify(
+                    {id: currentProjId,
+                    qty: parseInt(chVal),
+                    hwsetname: setType,
+                    username: globalUser,
+                    check: inOut
+                    
+                })
+            }
+            fetch("/inorout", sent)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.message);
+                    //console.log(data.message);
                     if (data.message.trim() !== 'approved') {
                         setError(data.message)
                     } else {
-                        setCapacity1("")
-                        setAvailability1("")
-                        setQuantity1("")
-                        setCapacity2("")
-                        setAvailability2("")
-                        setQuantity2("")
                         setError("")
-                        navigate('/ResourceManagement')
+                        setQuantity1("")
+                        setQuantity2("")
+                        
                     }
                 })
 
+
+
+             //loadData()
+
         }
+
+        
+
+        
+
     }
 
     return (
@@ -134,29 +155,31 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
 
             <h3> ------------------------------------------- </h3>
 
-            <div className = 'container' style = {{display : "block"}}>
+            
+             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet1">HWSet1</h3>
                 <TextField value = {capacity1} id="outlined-basic" label="Capacity" variant="outlined" onChange = {updateCapacity1}/>
                 <TextField value = {availability1} id="outlined-basic" label="Available" variant="outlined" onChange = {updateAvailability1}/>
                 {/* <TextField value = {quantity1} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity1}/> */}
-            </div>
+            </div> 
 
+            
             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet2">HWSet2</h3>
                 <TextField value = {capacity2} id="outlined-basic" label="Capacity" variant="outlined" onChange = {updateCapacity2}/>
                 <TextField value = {availability2} id="outlined-basic" label="Available" variant="outlined" onChange = {updateAvailability2}/>
                 {/* <TextField value = {quantity2} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity2}/> */}
-            </div>
+            </div> 
 
             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet1C">HWSet1 check in/out</h3>
                  <TextField value = {quantity1} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity1} />
                  <Button variant="contained"
-                        onClick={send}>
+                        onClick={() => send("hwset1", quantity1, "checkin")}>
                         Checkin
                 </Button>
                 <Button variant="contained"
-                        onClick={send}>
+                        onClick={() => send("hwset1", quantity1, "checkout")}>
                         CheckOut
                 </Button>
             </div>
@@ -165,55 +188,27 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                 <h3 id = "HWSet2C">HWSet2 check in/out</h3>
                  <TextField value = {quantity2} id="outlined-basic" label="Quantity" variant="outlined" onChange = {updateQuantity2} />
                  <Button variant="contained"
-                        onClick={send}>
+                        onClick={() => send("hwset2", quantity2, "checkin")}>
                         Checkin
                 </Button>
                 <Button variant="contained"
-                        onClick={send}>
+                        onClick={() => send("hwset2", quantity2, "checkout")}>
                         CheckOut
                 </Button>
-            </div>
+            </div> 
 
             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSetUser">{globalUser} Current hardware set values</h3>
-                <b> Hardware Set 1:</b> {/* add the values here*/}
-                <br/>
-                <b> Hardware set 2: </b>
-
+                <h3> Hardware Set 1: {userhw1}</h3> {/* add the values here*/}
+                <h3> Hardware set 2: {userhw2}</h3> 
+                 
             </div>
-
-
-
-
-
-
-
-{/*
-            <div className = 'managementButtons' style={{ display: 'flex'}}>
-                <Button variant="contained"
-                        onClick={send}>
-                        Checkin
-                </Button>
-
-                <Button
-                    variant="contained"
-                    style = {{left: 288}}
-                    onClick={send}>
-                    Checkout
-                </Button>
-            </div> */}
 
             <div>
                 <h3>
                     {errorMsg}
                 </h3>
             </div>
-
-            {/* <div className = 'navigationButtons'>
-                <Button variant="contained" onClick={()=>navigate('/projects')} style = {{display: 'flex', position: 'fixed', bottom: 500}}>Return To Projects</Button>
-                <Button variant="contained" onClick={()=>navigate('/')} style = {{display: 'flex', position: 'fixed', bottom: 450}}>Sign Out</Button>
-            </div> */}
-
         </div>
     );
 }
