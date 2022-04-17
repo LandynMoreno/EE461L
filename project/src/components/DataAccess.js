@@ -13,7 +13,7 @@ const metaData = [
     "Twenty-five subjects (21M, 4F) were selected (age: 50 ± 10 years, range 28-68 years; BMI: 31.6 ± 4.0 kg/m², range 25.1-42.5 kg/m²; AHI: 24.1 ± 20.3, range 1.7-90.9)."
 ]
 
-function DataAccess() {
+function DataAccess({globalUser, setGlobalUser}) {
     const navigate = useNavigate()
 
     return (
