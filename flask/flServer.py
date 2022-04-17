@@ -137,8 +137,40 @@ def loading():
     ids = given["id"]
     username = given["username"]
     responseFromDb = dbVar.getdata(ids, username)
+    usersCurHw1 = dbVar.gethwnumbers(ids, username, "hwset1")
+    usersCurHw2 = dbVar.gethwnumbers(ids, username, "hwset2")
+    responseFromDb["hw1value"] = usersCurHw1
+    responseFromDb["hw2value"] = usersCurHw2
 
     return responseFromDb
+
+@app.route("/inorout", methods=["POST", "GET"])
+def movesets():
+    given = request.get_json()
+    qty = given['qty']
+    ids = given['id']
+    hwsetname = given['hwsetname']
+    username = given['username']
+    type = given['check']
+    result = 0
+    if(type == "checkin"):
+       result =  dbVar.checkin(qty, ids, hwsetname, username)
+    else:
+        result = dbVar.checkout(qty, ids, hwsetname, username)
+    
+    if(result == -1):
+        return {
+            "message": "invalid input or other error"
+        }
+    else:
+        return {
+            "message": "approved"
+        }
+    
+
+
+
+    return True
 
 
 
