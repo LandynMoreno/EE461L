@@ -88,13 +88,7 @@ function Signin({setGlobalUser, globalUser}) {
                 <h1> </h1>
                 <h3> {errorMsg} </h3>
                 <Button variant="contained" onClick={()=>navigate('/newuser')}>Create an Account</Button>
-                <h1> </h1>
-                <Button variant="contained" onClick={()=>navigate('/dataaccess')}>Data Access</Button>
             </div>
-
-
-
-
             
         </div>
     );

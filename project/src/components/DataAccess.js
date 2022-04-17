@@ -13,11 +13,17 @@ const metaData = [
     "Twenty-five subjects (21M, 4F) were selected (age: 50 ± 10 years, range 28-68 years; BMI: 31.6 ± 4.0 kg/m², range 25.1-42.5 kg/m²; AHI: 24.1 ± 20.3, range 1.7-90.9)."
 ]
 
-function DataAccess() {
+function DataAccess({globalUser, setGlobalUser}) {
     const navigate = useNavigate()
 
     return (
         <div>
+            <div className = 'navigationBar'>
+                <Button variant="contained" onClick={()=>navigate('/projects')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 25}}>Projects</Button>
+                <Button variant="contained" onClick={()=>navigate('/ResourceManagement')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 200}}>Resource Management</Button>
+                <h3 style = {{display: 'flex', position: 'fixed', bottom: 535, right: 200}}>{globalUser}</h3>
+                <Button variant="contained" onClick={()=> {navigate('/'); setGlobalUser('Not Signed-In');}} style = {{display: 'flex', position: 'fixed', bottom: 550, right: 50}}>Sign Out</Button>
+            </div>
             <h1>DataAccess</h1>
             <Grid container rowSpacing={1} columnSpacing={1} background='primary'>
                 <Grid item lg={4}>
