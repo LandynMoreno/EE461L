@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Button,  } from '@mui/material';
 import {Grid, } from '@mui/material'
 import {useNavigate} from "react-router-dom";
@@ -13,8 +13,60 @@ const metaData = [
     "Twenty-five subjects (21M, 4F) were selected (age: 50 ± 10 years, range 28-68 years; BMI: 31.6 ± 4.0 kg/m², range 25.1-42.5 kg/m²; AHI: 24.1 ± 20.3, range 1.7-90.9)."
 ]
 
+
+
 function DataAccess({globalUser, setGlobalUser}) {
     const navigate = useNavigate()
+
+    const [meta1, setmeta1] = useState("")
+const [meta2, setmeta2] = useState("")
+const [meta3, setmeta3] = useState("")
+const [meta4, setmeta4] = useState("")
+const [meta5, setmeta5] = useState("")
+
+useEffect(() => {
+    loadMeta();
+  }, []);
+
+const loadMeta = () => {
+
+
+        const sent = {
+            method: "POST",
+            headers: {'Content-Type': 'application/json',
+                    'Accept': 'application/json'},
+            body: JSON.stringify(
+                {link1: "https://physionet.org/content/pmd/1.0.0/",
+                link2: "https://physionet.org/content/sleep-dep-hemo-cog/1.0.0/",
+                link3: "https://physionet.org/content/gaitdb/1.0.0/" ,
+                link4: "https://physionet.org/content/osv/1.0.0/",
+                link5: "https://physionet.org/content/ucddb/1.0.0/"
+
+            })
+        }
+        fetch("/apiaccess",sent )
+            .then(response => response.json())
+             .then(data =>{
+                //console.log(data.message);
+                if (data.message.trim() !== 'approved')
+                    {
+                        console.log(data.message)
+                    }
+                else
+                {
+                    // set the project ID here
+                    setmeta1(data.meta1)
+                    setmeta2(data.meta2)
+                    setmeta3(data.meta3)
+                    setmeta4(data.meta4)
+                    setmeta5(data.meta5)
+                }
+            })
+
+
+}
+
+
 
     return (
         <div>
@@ -48,7 +100,7 @@ function DataAccess({globalUser, setGlobalUser}) {
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> {metaData[0]} </h2>
+                    <h2> {meta1} </h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -68,7 +120,7 @@ function DataAccess({globalUser, setGlobalUser}) {
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> {metaData[1]}</h2>
+                    <h2> {meta2}</h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -84,11 +136,11 @@ function DataAccess({globalUser, setGlobalUser}) {
                 </Grid>
 
                 <Grid item lg={2}>
-                    <h2>A. Goldberger</h2>
+                    <h2>Jeffrey Hausdorff</h2>
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> {metaData[2]}</h2>
+                    <h2> {meta3}</h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -105,11 +157,11 @@ function DataAccess({globalUser, setGlobalUser}) {
                 </Grid>
 
                 <Grid item lg={2}>
-                    <h2>L. Amaral</h2>
+                    <h2>Amar S. Bhogal</h2>
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> {metaData[2]}</h2>
+                    <h2> {meta4}</h2>
                 </Grid>
 
                 <Grid item lg={2}>
@@ -127,11 +179,11 @@ function DataAccess({globalUser, setGlobalUser}) {
                 </Grid>
 
                 <Grid item lg={2}>
-                    <h2>L. Glass</h2>
+                    <h2>Conor Heneghan</h2>
                 </Grid>
 
                 <Grid item lg={4}>
-                    <h2> {metaData[3]} </h2>
+                    <h2> {meta5} </h2>
                 </Grid>
 
                 <Grid item lg={2}>

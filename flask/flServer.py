@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_pymongo import PyMongo
 from encrypt import customEncrypt
 from databaseImplementation import database
+from dataApi import scrape
 import random
 #from users import Users
 import sys
@@ -24,6 +25,35 @@ dbVar = database()
 @app.route("/people")
 def users():
     return {"users": ["jason", "john ", "jose"]}
+
+
+
+@app.route("/apiaccess", methods=["POST", "GET"])
+def scrapData():
+    given = request.get_json()
+    link1 = given['link1']
+    link2 = given['link2']
+    link3 = given['link3']
+    link4 = given['link4']
+    link5 = given['link5']
+    cite1 = scrape(link1)
+    cite2 = scrape(link2)
+    cite3 = scrape(link3)
+    cite4 = scrape(link4)
+    cite5 = scrape(link5)
+
+    return{
+        "meta1" : cite1,
+        "meta2": cite2,
+        "meta3": cite3,
+        "meta4": cite4,
+        "meta5": cite5,
+        "message": "approved"
+
+    }
+
+
+
 
 
 @app.route("/logcheck", methods=["POST", "GET"])
