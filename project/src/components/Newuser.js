@@ -60,12 +60,12 @@ function Newuser({setGlobalUser, globalUser}) {
                 }
             else
             {
-                setGlobalUser(usernm)
-                console.log(globalUser)
+                //setGlobalUser(usernm)
+                //console.log(globalUser)
                 setUser("")
                 setPswd("")
                 setError("")
-                navigate('/projects')
+                navigate('/')
             }
           })
                
