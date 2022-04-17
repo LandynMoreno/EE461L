@@ -128,7 +128,7 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
         
             <div className = 'navigationBar'>
                 <Button variant="contained" onClick={()=>navigate('/dataaccess')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 25}}>Data Access</Button>
-                <Button variant="contained" onClick={()=>navigate('/ResourceManagement')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 200}}>Resource Management</Button>
+                {/* <Button variant="contained" onClick={()=>navigate('/ResourceManagement')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 200}}>Resource Management</Button> */}
                 <h3 style = {{display: 'flex', position: 'fixed', bottom: 535, right: 200}}>{globalUser}</h3>
                 <Button variant="contained" onClick={()=> {navigate('/'); setGlobalUser('Not Signed-In');}} style = {{display: 'flex', position: 'fixed', bottom: 550, right: 50}}>Sign Out</Button>
             </div>
