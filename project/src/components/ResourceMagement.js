@@ -121,8 +121,13 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
 
     return (
         <div>
+            <div className = 'navigationBar'>
+                <Button variant="contained" onClick={()=>navigate('/dataaccess')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 25}}>Data Access</Button>
+                <Button variant="contained" onClick={()=>navigate('/projects')} style = {{display: 'flex', position: 'fixed', bottom: 550, left: 200}}>Projects</Button>
+                <h3 style = {{display: 'flex', position: 'fixed', bottom: 535, right: 200}}>{globalUser}</h3>
+                <Button variant="contained" onClick={()=> {navigate('/'); setGlobalUser('Not Signed-In');}} style = {{display: 'flex', position: 'fixed', bottom: 550, right: 50}}>Sign Out</Button>
+            </div>
             <h1>Resource Management</h1>
-            <h3>{globalUser}</h3>
 
             <div className = 'container' style = {{display : "block"}}>
                 <h3 id = "HWSet1">HWSet1</h3>
