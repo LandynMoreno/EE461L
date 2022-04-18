@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, cloneElement} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
@@ -46,9 +46,15 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
     useEffect(() => {
         loadData();
       }, []);
+
+
     useEffect(() =>{
     loadData();
     },[quantity1])
+
+    useEffect(() =>{
+        loadData();
+        },[errorMsg])
 
     useEffect(() =>{
         loadData();
@@ -66,7 +72,6 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                     'Accept': 'application/json'},
             body: JSON.stringify(
                 {id: currentProjId,
-                username: globalUser
 
             })
         }
@@ -85,9 +90,9 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                     setCapacity1(data.capac1)
                     setAvailability2(data.avail2)
                     setCapacity2(data.capac2)
-                    setUserhw1(data.hw1value)
+                    setUserhw1(data.currenthw1)
                     //console.log(data.hw1value)
-                    setUserhw2(data.hw2value)
+                    setUserhw2(data.currenthw2)
                     setProjName(data.name)
                     setProjDescrip(data.description)
                 }
@@ -100,11 +105,28 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
 
     const send = (setType, chVal, inOut) => {
         //console.log(chVal)
-        if (!(Number.isInteger(chVal)) && parseInt(chVal) <= 0 && (chVal.length >0)){
-            setError("Quantity for HardwareSet must be integer greater than 0")
+        //var numb = parseInt(chVal,10)
+        //console.log(numb)
+        //console.log(parseInt(chVal, 10))
+        // console.log(isNaN(parseInt(chVal, 10)))
+        // console.log(Number.isInteger(numb))
+
+        if (isNaN(parseInt(chVal, 10)))
+        {
+            setError("Not a number")
+            // not a number
+            
+            //setError("Quantity for HardwareSet must be integer greater than 0")
+            
         }
-         else
-         {
+        else if(parseInt(chVal, 10) <0)
+        {
+            setError("cant be negative")
+        }
+
+        else
+        {
+             setError("")
             const sent = 
             {        
                 method: "POST",
@@ -112,9 +134,8 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
                         'Accept': 'application/json'},
                 body: JSON.stringify(
                     {id: currentProjId,
-                    qty: parseInt(chVal),
+                    qty: parseInt(chVal, 10),
                     hwsetname: setType,
-                    username: globalUser,
                     check: inOut
                     
                 })
@@ -138,6 +159,8 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
              //loadData()
 
         }
+
+        
 
         
 
@@ -203,17 +226,13 @@ function ResourceManagement({globalUser, setGlobalUser, currentProjId, setCurren
             </div> 
 
             <div className = 'container' style = {{display : "block"}}>
-                <h3 id = "HWSetUser">{globalUser} Current hardware set values</h3>
+                <h3 id = "HWSetUser">{currentProjId} Current hardware set values</h3>
                 <h3> Hardware Set 1: {userhw1}</h3> {/* add the values here*/}
                 <h3> Hardware set 2: {userhw2}</h3> 
+                <h3> {errorMsg} </h3>
                  
             </div>
 
-            <div>
-                <h3>
-                    {errorMsg}
-                </h3>
-            </div>
         </div>
     );
 }

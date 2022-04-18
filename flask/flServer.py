@@ -5,7 +5,9 @@ from flask_pymongo import PyMongo
 from encrypt import customEncrypt
 from databaseImplementation import database
 from dataApi import scrape
+from projectImplement import projectMan
 import random
+import json
 #from users import Users
 import sys
 
@@ -19,14 +21,23 @@ client = PyMongo(app, uri="mongodb+srv://tester:helloworld@cluster0.wsoqa.mongod
 db = client.db
 userCollec = db.users
 
-dbVar = database()
+#dbVar = database()
+
+projVar = projectMan()
 
 
 @app.route("/people")
 def users():
     return {"users": ["jason", "john ", "jose"]}
 
-
+@app.route("/idlist", methods=["POST", "GET"])
+def gettingids():
+    given = request.get_json()
+    isHw = given['isHw']
+    message = projVar.getIdsStr(isHw)
+    return{
+        "message": message
+    }
 
 @app.route("/apiaccess", methods=["POST", "GET"])
 def scrapData():
@@ -66,15 +77,15 @@ def checker():
     
 
     for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1, "n": 1}):
-        if(person['username'] == usernameParam):
-            nval = person['n']
+        nval = person['n']
+        testUser = customEncrypt(person['username'], nval, -1)
+        if(testUser == usernameParam):
             testPassword = customEncrypt(person['password'], nval, -1)
             if(testPassword == pswrdParam):
                 found = True
         
 
     if(found):
-        currentUserId = usernameParam
         return{
             "message": "approved"
         }
@@ -91,11 +102,12 @@ def addPerson():
     usernameParam = given['username']
     pswrdParam = given['password']
     nval = random.randint(1,4)
+    userToInsert = customEncrypt(usernameParam, nval, 1)
     passToInsert = customEncrypt(pswrdParam, nval, 1)
     
 
     newDoc = {
-        "username": usernameParam,
+        "username": userToInsert,
         "password": passToInsert,
         "n": nval
     }
@@ -112,8 +124,10 @@ def addPerson():
 
     found = False
 
-    for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1 }):
-        if(person['username'] == usernameParam):
+    for person in userCollec.find({},{ "_id": 0, "username": 1, "password": 1 , "n": 1 }):
+        tempn = person['n']
+        testUser = customEncrypt(person['username'], tempn, -1)
+        if(testUser == usernameParam):
             found = True
 
     
@@ -137,10 +151,10 @@ def projActions():
     given  = request.get_json()
     name = given["name"]
     descript = given["description"]
+    isHw = 0
     ids = given["id"]
-    username = given["username"]
     response = "default response"
-    response = dbVar.createdocuments(name, descript, ids, 200, username)
+    response = projVar.createProj(isHw, name, descript, ids)
 
     return{
         "message": response
@@ -152,8 +166,7 @@ def projActions():
 def checkerProj():
     given = request.get_json()
     ids = given["id"]
-    username = given['username']
-    reponseFromDb = dbVar.checkExists(ids, username)
+    reponseFromDb = projVar.checkExistence(ids)
 
     #this method will check if proj exists then return approved if its good
     return {
@@ -165,12 +178,7 @@ def checkerProj():
 def loading():
     given = request.get_json()
     ids = given["id"]
-    username = given["username"]
-    responseFromDb = dbVar.getdata(ids, username)
-    usersCurHw1 = dbVar.gethwnumbers(ids, username, "hwset1")
-    usersCurHw2 = dbVar.gethwnumbers(ids, username, "hwset2")
-    responseFromDb["hw1value"] = usersCurHw1
-    responseFromDb["hw2value"] = usersCurHw2
+    responseFromDb = projVar.getStatus(ids)
 
     return responseFromDb
 
@@ -180,14 +188,13 @@ def movesets():
     qty = given['qty']
     ids = given['id']
     hwsetname = given['hwsetname']
-    username = given['username']
     type = given['check']
     result = 0
     if(type == "checkin"):
-       result =  dbVar.checkin(qty, ids, hwsetname, username)
+       result =  projVar.checkin(qty, ids, hwsetname)
     else:
-        result = dbVar.checkout(qty, ids, hwsetname, username)
-    
+        result = projVar.checkout(qty, ids, hwsetname)
+
     if(result == -1):
         return {
             "message": "invalid input or other error"

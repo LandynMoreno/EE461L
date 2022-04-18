@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
     const [projDescrip, setDescrip] = useState("")
     const[searchId, setSearchId] = useState("")
     const[error, setError] = useState("")
+    const[idss, setidss] = useState("")
 
     const updateName = (newName) => {
         setName(newName.target.value)  }
@@ -20,6 +21,47 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
     const updateSearchid = (newSearch) => {
         setSearchId(newSearch.target.value)  }
 
+    useEffect(() => {
+            loadIds();
+    }, []);
+
+    useEffect(() => {
+    loadIds();
+    }, [error]);
+
+    const loadIds = () =>{
+
+        const sent = {        
+            method: "POST",
+            headers: {'Content-Type': 'application/json',
+                    'Accept': 'application/json'},
+            body: JSON.stringify(
+                {isHw:0
+            })
+        }
+        fetch("/idlist",sent )
+            .then(response => response.json())
+             .then(data =>{
+                //console.log(data.message);
+                if (data.message.trim() === 'project already exists')
+                    {
+                        setError(data.message)
+                    }
+                else
+                {
+
+                    setId("")
+                    setDescrip("")
+                    setError(data.message)
+                    setName("")
+                }
+            })
+
+
+
+    }
+
+
     const sendNewProj = () => {
         const sent = {        
             method: "POST",
@@ -28,8 +70,7 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
             body: JSON.stringify(
                 {name: projName,
                 description: projDescrip,
-                id: projId,
-                username: globalUser
+                id: projId
             })
         }
         if(projName.length < 1 )
@@ -57,16 +98,11 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
                     }
                 else
                 {
-                    // set the project ID here
-                    setCurrentProjId(projId)
 
-                    //setGlobalUser(usernm)
-                    //console.log(globalUser)
                     setId("")
                     setDescrip("")
-                    setError("")
+                    setError(data.message)
                     setName("")
-                    navigate('/resourceManagement')
                 }
             })
             
@@ -83,8 +119,7 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
                     'Accept': 'application/json'},
             body: JSON.stringify(
                 {
-                     id: searchId,
-                     username: globalUser
+                     id: searchId
             })
         }
         if(searchId.length < 1)
@@ -101,9 +136,7 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
                 if (data.message.trim() === 'approved')
                     {
                     // set the project ID here
-                    setCurrentProjId(searchId)
-
-                    
+                    setCurrentProjId(searchId)              
                     setSearchId("")
                     setError("")
                     
@@ -146,7 +179,8 @@ function Projects({globalUser, setGlobalUser, currentProjId, setCurrentProjId })
             <p>Use existing Project</p>
             <TextField value = {searchId} id="outlined-basic" label="ProjectID" variant="outlined" onChange={updateSearchid}/>
             <Button variant="contained" onClick={checkProject}>Access Project</Button>
-            <h3> {error} </h3>
+            <h3> {idss} </h3>
+            <h3> LIST OF PROJECT IDS: {error} </h3>
             
         </div>
     );
