@@ -14,7 +14,8 @@ class projectMan:
                 strToReturn = strToReturn + proj["ids"] +", "
         
         return strToReturn
-    
+
+    #ids need to be for looped here to create a modularization of project #
     def createProj(self, isHw, name, descript, ids):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
             return "project already exists"
@@ -41,6 +42,8 @@ class projectMan:
         else:
             return "No such project found"
 
+
+    #get status processing needs to go into a for loop as well
     def getStatus(self, ids):
         if self.__db.Projects.find_one({"isHw": 1}) is not None:
             total = self.__db.Projects.find_one({"isHw": 1})
@@ -71,14 +74,14 @@ class projectMan:
                 "message": "no project database initialized"
             }
             return info
-
+#fine
     def getproject(self, ids):
         if self.__db.Projects.find_one({"ids": ids}) is not None:
             check = self.__db.Projects.find_one({"ids": ids})
             return check
         else:
             return "project does not exist"
-
+#for loops and concatenization needed for check in and check out
     def checkin(self, qty, ids, hwsetname):
         if(self.getproject(ids) is not None):
             curproj = self.getproject(ids)
